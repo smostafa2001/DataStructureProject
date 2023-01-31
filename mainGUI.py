@@ -1,18 +1,20 @@
 from Trie import Trie
 from tkinter import *
 
-
 fileDescriptor = open("words.txt")
 words = fileDescriptor.read().split()
 trie = Trie()
 trie.formTrie(words)
 
 window = Tk()
-window.geometry("510x400")
 window.title("پروژه ساختمان داده")
 font = ("Times", 14, 'bold')
-label = Label(text="Enter your query", font=font)
-label.grid(row=0, column=1)
+label = Label(window, text="Enter your query", font=font)
+label.pack()
+verticalScrollbar = Scrollbar(window)
+verticalScrollbar.pack(side=RIGHT, fill=Y)
+horizontalScrollbar = Scrollbar(window, orient=HORIZONTAL)
+horizontalScrollbar.pack(side=BOTTOM, fill=X)
 
 
 def onSelection(frame):
@@ -30,14 +32,18 @@ def downArrowIsClicked(frame):
 
 entryString = StringVar()
 entry = Entry(window, textvariable=entryString, font=font)
-entry.grid(row=1, column=1, padx=10, pady=0)
+entry.pack(padx=10, pady=0)
 listBox = Listbox(window, height=6, font=font, relief='flat',
-                  bg='SystemButtonFace', highlightcolor='SystemButtonFace')
-listBox.grid(row=2, column=1)
+                  bg='SystemButtonFace', highlightcolor='SystemButtonFace',
+                  yscrollcommand=verticalScrollbar.set,
+                  xscrollcommand=horizontalScrollbar.set)
+listBox.pack()
+verticalScrollbar.config(command=listBox.yview)
+horizontalScrollbar.config(command=listBox.xview)
 
 
 def getData(*args):
-    searchString = entry.get()
+    searchString = entry.get().lower()
     if searchString == '':
         listBox.delete(0, END)
         return
@@ -55,8 +61,8 @@ def getData(*args):
 
 
 entry.bind('<Down>', downArrowIsClicked)
-listBox.bind('<Right>', onSelection)
+listBox.bind('<Tab>', onSelection)
 listBox.bind('<Return>', onSelection)
 entryString.trace('w', getData)
+window.bind("<Destroy>", exit)
 window.mainloop()
-
