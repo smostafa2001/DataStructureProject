@@ -23,7 +23,7 @@ class Trie:
 
     def suggestionsRecords(self, node, word):
         if node.isWord:
-            self.suggestions.append(word)  # print(word)
+            self.suggestions.append(word)
         for character, child in node.children.items():
             self.suggestionsRecords(child, word + character)
 
