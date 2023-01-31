@@ -27,6 +27,9 @@ class Trie:
         for character, child in node.children.items():
             self.suggestionsRecords(child, word + character)
 
+    def clearSuggestions(self):
+        self.suggestions.clear()
+
     def autoSuggestions(self, key):
         node = self.root
         for character in key:
