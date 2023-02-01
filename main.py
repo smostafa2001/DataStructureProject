@@ -19,4 +19,4 @@ elif compare == -1:
     print("No other strings found with this prefix\n")
 elif compare == 0:
     print("No string found with this prefix\n")
-input("Enter any key to exit...")
+input("\nEnter any key to exit...")
